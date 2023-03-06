@@ -11,6 +11,7 @@ exports.createTables = () => {
                 console.log(`Creating db table 'users'`)
                 db.run(`CREATE TABLE users (
                     id          INTEGER NOT NULL PRIMARY KEY,
+                    lang        STRING,
                     goalNotif   INTEGER NOT NULL,
                     assistNotif INTEGER NOT NULL
                     )`, (err) => {if (err) reject(err)})
@@ -60,16 +61,16 @@ exports.getStats = () => {
     })
 }
 
-exports.addUser = (id) => {
+exports.addUser = (id, lang) => {
     return new Promise((resolve, reject) => {
-        db.run(`INSERT INTO users (id, goalNotif, assistNotif) VALUES (?, ?, ?)`, [id, 0, 0], (err) => {
+        db.run(`INSERT or IGNORE INTO users (id, lang, goalNotif, assistNotif) VALUES (?, ?, ?, ?)`, [id, lang, 0, 0], (err) => {
             if (err) reject(err)
             resolve()
         })
     })
 }
 
-exports.setUser = (id, col, val) => {
+exports.updateUser = (id, col, val) => {
     return new Promise((resolve, reject) => {
         db.run(`UPDATE users SET ${col} = ? WHERE id = ?`, [val, id], (err) => {
             if (err) reject(err)
