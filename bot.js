@@ -6,6 +6,10 @@ const TelegramBot = require('node-telegram-bot-api')
 const bot = new TelegramBot(process.env.TOKEN, { polling: true })
 process.env["NTBA_FIX_350"] = 1;
 
+bot.deleteWebHook().then(
+    console.log('Update queue cleared on start.')
+)
+
 onStart()
 
 bot.on("polling_error", console.log);
@@ -18,8 +22,8 @@ bot.onText(/\/start/, async (msg) => {
     db.addUser(msg.chat.id, user_lang)
 })
 
-bot.onText(/\/help/, (msg) => {
-    const user = db.getUser(msg.chat.id)
+bot.onText(/\/help/, async (msg) => {
+    const user = await db.getUser(msg.chat.id)
     bot.sendMessage(msg.chat.id, src.helpMsg[user.lang])
 })
 
@@ -50,6 +54,8 @@ bot.onText(/\/assists/, async (msg) => {
 })
 
 bot.onText(/\/stats/, async (msg) => {
+    let goals,assists
+    [goals, assists] = await db.getStats()
     const user = await db.getUser(msg.chat.id)
 	bot.sendMessage(msg.chat.id,
         `${src.totalGoalsMsg[user.lang]}: ${goals},\n` +

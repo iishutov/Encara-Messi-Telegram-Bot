@@ -43,15 +43,6 @@ exports.totalAssistsMsg = {
     'ru': `Всего ассистов`
 }
 
-exports.goalCanceledMsg = {
-    'en': `Goal was canceled 😢`,
-    'ru': `Гол отменён 😢`
-}
-exports.assistCanceledMsg = {
-    'en': `Assists was canceled 😢`,
-    'ru': `Ассист отменён 😢`
-}
-
 exports.assistMsg = {
     'en': `Assist!`,
     'ru': `Ассист!`

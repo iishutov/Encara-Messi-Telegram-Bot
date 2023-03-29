@@ -17,14 +17,13 @@ exports.checkStats = async (bot) => {
 }
 
 async function checkGoals(bot, currGoals){
-    if (goals != currGoals){
+    if (goals < currGoals){
         const users = await db.getUsers('goalNotif')
 
         let alarmMessage = {}
         const rand = Math.random()
         src.languages.forEach(lang => {
-            alarmMessage[lang] = (currGoals < goals) ?
-                src.goalCanceledMsg[lang] :
+            alarmMessage[lang] = 
                 src.goalStrList[lang][Math.floor(rand * src.goalStrList[lang].length)] + ' ' +
                 src.emojiList[Math.floor(rand * src.emojiList.length)]
         })
@@ -39,14 +38,13 @@ async function checkGoals(bot, currGoals){
 }
 
 async function checkAssists(bot, currAssists){
-    if (assists != currAssists){
+    if (assists < currAssists){
         const users = await db.getUsers('assistNotif')
 
         let alarmMessage = {}
         const rand = Math.random()
         src.languages.forEach(lang => {
-            alarmMessage[lang] = (currAssists < assists) ?
-                src.assistCanceledMsg[lang] :
+            alarmMessage[lang] = 
                 src.assistMsg[lang] + ' ' + src.emojiList[Math.floor(rand * src.emojiList.length)]
         })
 
